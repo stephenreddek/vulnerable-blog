@@ -79,6 +79,20 @@ function formatPosts(posts: Post[], user: User | null | undefined): Record<strin
    }
 }
 
+function getCORSHeaders(request: Request): Record<string, string> {
+   const origin = request.headers.get('Origin')
+
+   if (origin === null) {
+      return {}
+   }
+
+   return {
+      'Access-Control-Allow-Origin': origin,
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Credentials': 'true',
+   }
+}
+
 Bun.serve({
    async fetch(req) {
       const url = new URL(req.url)
@@ -228,6 +242,28 @@ Bun.serve({
          post_service.update({ post_id: post_id, contents: blog_post.toString() })
 
          return Response.redirect(`/blog`)
+      }
+      if (url.pathname === '/api/posts' && req.method === 'OPTIONS') {
+         return Response.json(
+            {},
+            {
+               headers: getCORSHeaders(req),
+            }
+         )
+      }
+      if (url.pathname === '/api/posts' && req.method === 'GET') {
+         const session = session_store.getSessionFromCookie(req)
+
+         if (session === null) {
+            console.error('API request attempted without session')
+            return new Response('Not authenticated')
+         }
+
+         const posts = post_service.retrieve()
+
+         return Response.json(posts, {
+            headers: getCORSHeaders(req),
+         })
       }
       return new Response('404!')
    },
