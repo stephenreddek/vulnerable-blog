@@ -1,0 +1,21 @@
+<html>
+
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/blog">Blog</a>
+        {{ login_or_profile }}
+        {{ maybe_admin_link }}
+    </nav>
+    <h1>Edit your post</h1>
+    <form action="/posts/{{ post_id }}" method="POST">
+        <div>
+            <label for="blog_post">Edit Post:</label>
+            <input type="textarea" id="blog_post" name="blog_post" value="{{ post_contents }}" required />
+        </div>
+
+        <input type="submit" value="Edit" />
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+<html>
+
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/blog">Blog</a>
+        {{ login_or_profile }}
+        {{ maybe_admin_link }}
+    </nav>
+    <h1>Your profile page</h1>
+    <h2>Hello: {{ username }}</h2>
+    <h2>Your role is: {{ role }}</h2>
+
+    <form action="/posts" method="POST">
+        <div>
+            <label for="blog_post">New Post:</label>
+            <input type="textarea" id="blog_post" name="blog_post" required />
+        </div>
+    
+        <input type="text" name="user_id" value="{{ user_id }}" hidden />
+    
+        <input type="submit" value="Post" />
+    </form>
+</body>
+
+</html>

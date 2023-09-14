@@ -19,7 +19,7 @@ export function seedTestData(db: Database): void {
    ]
 
    db.query(`create table users (username text, password_hash text, role text);`).run()
-   db.query(`create table posts (user_id text, contents text);`).run()
+   db.query(`create table posts (user_id integer, contents text);`).run()
 
    const user_service = new UserService(db)
 
@@ -29,5 +29,5 @@ export function seedTestData(db: Database): void {
 
    const post_service = new PostService(db)
 
-   post_service.create({ user_id: '1', contents: 'Example Post' })
+   post_service.create({ user_id: 1, contents: 'Example Post' })
 }
