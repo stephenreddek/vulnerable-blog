@@ -224,6 +224,12 @@ Bun.serve({
          })
       }
       if (url.pathname.startsWith('/posts/') && req.method === 'POST') {
+         const session = session_store.getSessionFromCookie(req)
+
+         if (session === null) {
+            return new Response('Not authenticated')
+         }
+
          const post_id_param = url.pathname.substring('/posts/'.length)
          const post_id = parseInt(post_id_param, 10)
 
