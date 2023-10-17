@@ -1,7 +1,7 @@
 import Database from 'bun:sqlite'
 
 export type User = {
-   user_id: string
+   user_id: number
    username: string
    password_hash: string
    role: Role
@@ -28,7 +28,7 @@ export class UserService {
       return this.fetchByUserName(user.username)
    }
 
-   public fetchById(user_id: string | number): User | null {
+   public fetchById(user_id: number): User | null {
       const user = this.db
          .query('SELECT username, password_hash, rowid as user_id, role FROM users WHERE rowid = $user_id')
          .get({ $user_id: user_id.toString() })

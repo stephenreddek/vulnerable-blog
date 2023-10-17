@@ -12,7 +12,7 @@ export class SessionStore<T = any> {
 
       this.set(session_id, data)
 
-      res.headers.append('Set-Cookie', `${this.cookie_name}=${session_id}`)
+      res.headers.append('Set-Cookie', `${this.cookie_name}=${session_id}; SameSite=None; Secure`)
    }
 
    public getSessionById(session_id: string): T | null {
